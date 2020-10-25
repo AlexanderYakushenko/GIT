@@ -25,8 +25,10 @@ public class Office {
     public int calcMoney() {
         int money = 0;
         for(Integer employee: this.payments){
-            money += (int) Employee.payment();
+            money += employee.payment();
         }
         return money;
     }
+
+
 }

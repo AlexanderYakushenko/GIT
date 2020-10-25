@@ -54,6 +54,6 @@ public class MainClass {
         office.addTotalMoney(boss);
 
 
-        System.out.println("total sum of money: " + Office.calcMoney());
+        System.out.println("total sum of money: " + office.calcMoney());
     }
 }
