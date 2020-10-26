@@ -1,31 +1,27 @@
 package by.issoft.nyevent;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class Office {
 
     String name;
-    int payment;
-    ArrayList<Integer> payments;
+    //employee.payment;
+    ArrayList<Employee> payments;
 
     public Office(String name) {
 
         this.name = name;
-        this.payments = new ArrayList<Integer>();
+        payments = new ArrayList<>();
     }
-
-    public void addMoney(List<Employee> shopWorkerLevel) {
+    public void addMoney() {
     }
-
     public void addTotalMoney(Office calcMoney) {
-        payments.add(payment);
+        payments.add(money);
     }
 
     public int calcMoney() {
         int money = 0;
-        for(Integer employee: this.payments){
-            money += employee.payment();
+        for(List<Employee> : payments){
+            money += Employee.payment();
         }
         return money;
     }

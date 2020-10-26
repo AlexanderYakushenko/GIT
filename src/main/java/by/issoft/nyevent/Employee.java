@@ -23,7 +23,7 @@ public class Employee {
             case "bossAsistent": payment = 0;
             case "sysAdmin" : payment = 20;
             case "buh" : payment = 60;
-            case "shopWorker" :payment = 40;
+            case "shopWorker" : payment = 40;
         }
         return payment;
 //        public static int calcMoney() {

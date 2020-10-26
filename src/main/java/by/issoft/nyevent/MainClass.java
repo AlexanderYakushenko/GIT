@@ -1,6 +1,5 @@
 package by.issoft.nyevent;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class MainClass {
                 new Employee("Kostya", "shopWorker")
         );
         Office shopWorker = new Office ("shop");
-        shopWorker.addMoney(shopWorkerLevel);
+        shopWorker.addMoney();
         office.addTotalMoney(shopWorker);
 
 
@@ -27,7 +26,7 @@ public class MainClass {
                 new Employee("Katya", "buh")
         );
         Office buh = new Office ("buhgalteria");
-        buh.addMoney(buhLevel);
+        buh.addMoney();
         office.addTotalMoney(buh);
 
 
@@ -35,14 +34,14 @@ public class MainClass {
                 new Employee("Boris", "sysAdmin")
         );
         Office sysAdmin = new Office ("Servernaya");
-        sysAdmin.addMoney(sysAdminLevel);
+        sysAdmin.addMoney();
         office.addTotalMoney(sysAdmin);
 
         List<Employee> bossAsistentLevel = Arrays.asList(
                 new Employee("Svetochka", "bossAsistent")
         );
         Office bossAsistent = new Office ("Asistentskaya");
-        bossAsistent.addMoney(bossAsistentLevel);
+        bossAsistent.addMoney();
         office.addTotalMoney(bossAsistent);
 
 
@@ -50,7 +49,7 @@ public class MainClass {
                 new Employee("Veniamin", "boss")
         );
         Office boss = new Office ("mainRoom");
-        boss.addMoney(bossLevel);
+        boss.addMoney();
         office.addTotalMoney(boss);
 
 
