@@ -1,58 +1,58 @@
 package by.issoft.nyevent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MainClass {
 
-    //static int payment;
+
+    //private static Office offices;
+    public List<Office> offices;
 
     public static void main(String[] args) {
-        Office office = new Office("Roga-Kopita");
 
+        offices = new ArrayList<>();   // как правильно написать чтобы создался массив, куда мы будем запихивать все отделы ??
 
         List<Employee> shopWorkerLevel = Arrays.asList(
                 new Employee("Vasya", "shopWorker"),
                 new Employee("Petya", "shopWorker"),
                 new Employee("Kostya", "shopWorker")
         );
-        Office shopWorker = new Office ("shop");
+        Office shopWorker = new Office("shop");
         shopWorker.addMoney();
-        office.addTotalMoney(shopWorker);
-
+        offices.addTotalMoney(shopWorker); //вопрос вытекающий из вопроса выше
 
         List<Employee> buhLevel = Arrays.asList(
                 new Employee("Valya", "buh"),
                 new Employee("Katya", "buh")
         );
-        Office buh = new Office ("buhgalteria");
+        Office buh = new Office("buhgalteria");
         buh.addMoney();
-        office.addTotalMoney(buh);
-
+        offices.addTotalMoney(buh);
 
         List<Employee> sysAdminLevel = Arrays.asList(
                 new Employee("Boris", "sysAdmin")
         );
-        Office sysAdmin = new Office ("Servernaya");
+        Office sysAdmin = new Office("Servernaya");
         sysAdmin.addMoney();
-        office.addTotalMoney(sysAdmin);
+        offices.addTotalMoney(sysAdmin);
 
         List<Employee> bossAsistentLevel = Arrays.asList(
                 new Employee("Svetochka", "bossAsistent")
         );
-        Office bossAsistent = new Office ("Asistentskaya");
+        Office bossAsistent = new Office("Asistentskaya");
         bossAsistent.addMoney();
-        office.addTotalMoney(bossAsistent);
-
+        offices.addTotalMoney(bossAsistent);
 
         List<Employee> bossLevel = Arrays.asList(
                 new Employee("Veniamin", "boss")
         );
-        Office boss = new Office ("mainRoom");
+        Office boss = new Office("mainRoom");
         boss.addMoney();
-        office.addTotalMoney(boss);
+        offices.addTotalMoney(boss);
 
 
-        System.out.println("total sum of money: " + office.calcMoney());
+        System.out.println("total sum of money: " + totalMoney); // что именно нужно писать в строку, чтобы распечаталась именно общая цифра
     }
 }
