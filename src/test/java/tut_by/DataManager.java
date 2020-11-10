@@ -18,25 +18,38 @@ import static com.codeborne.selenide.Selenide.open;
 @Accessors(chain = true)
 public class DataManager {
 
-    @DataProvider
-    public Object[] dataForInput(String login, String pass) {
-        open("https://mail.tut.by/");
-        $(By.cssSelector("[name='login']")).setValue(login).pressEnter();
-        $(By.cssSelector("[name='password']")).setValue(password).pressEnter();
-        return new Object[0];
-    }
 
 
     @DataProvider
-    public Object[] textMessageParser() throws IOException {
-        Path path = Paths.get("src/main/resources/text.txt");
-        List<String> data = Files.readAllLines(path);
+    public Object[][] dataForLetterInput() {
+        Object[][] data = new Object[1][3];
 
-        Object[] message = new Object[2];
-        message[0] = data.get(1);
-        message[1] = data.get(2);
-
-        return message;
+        data[0][0] = "testayqa@tut.by";
+        data[0][1] = "TestTestTest";
+        data[0][2] = "Hello world, I am email body";
+        return data;
     }
+
+
+//    @DataProvider
+//    public Object[] dataForInput(String login, String pass) {
+//        open("https://mail.tut.by/");
+//        $(By.cssSelector("[name='login']")).setValue(login).pressEnter();
+//        $(By.cssSelector("[name='password']")).setValue(password).pressEnter();
+//        return new Object[0];
+//    }
+//
+//
+//    @DataProvider
+//    public Object[] textMessageParser() throws IOException {
+//        Path path = Paths.get("src/main/resources/text.txt");
+//        List<String> data = Files.readAllLines(path);
+//
+//        Object[] message = new Object[2];
+//        message[0] = data.get(1);
+//        message[1] = data.get(2);
+//
+//        return message;
+//    }
 }
 
