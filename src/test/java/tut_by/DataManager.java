@@ -1,5 +1,6 @@
 package tut_by;
 
+import com.github.javafaker.Faker;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.openqa.selenium.By;
@@ -19,7 +20,13 @@ import static com.codeborne.selenide.Selenide.open;
 @Accessors(chain = true)
 public class DataManager {
 
+    Faker faker = new Faker();
 
+    String name = faker.name().fullName(); // Miss Samanta Schmidt
+    String firstName = faker.name().firstName(); // Emory
+    String lastName = faker.name().lastName(); // Barton
+
+   // String quote = faker.howIMetYourMother.quote(); // 60018 Sawayn Brooks Suite 449
 
     @DataProvider
     public Object[][] dataForLetterInput() {
@@ -54,6 +61,8 @@ public class DataManager {
 
             return message;
         }
+
+
 //        @DataProvider
 //        public Iterator<Object[]> dataForLetterInput() throws IOException {
 //            // Object[][] data = new Object[3][3];
