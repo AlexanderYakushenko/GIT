@@ -14,47 +14,28 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.testng.AssertJUnit.assertEquals;
 
-public class BaseTest {
+public class MainTest {
+
+    PageObject pageObject = new PageObject();
+
 
 
     @Test(dataProvider = "dataForLetterInput", dataProviderClass = DataManager.class)
-    public void createLetter(String letterReceiver, String letterTitle, String letterBody) {
-        open("https://mail.tut.by");
-
-
-        SelenideElement composeMessage = $(By.xpath("//span[contains(@class,'mail-ComposeButton-Text')]"));
-        SelenideElement emailToInput = $(By.xpath("//div[@class='ComposePopup-Content']//[@class='ComposeRecipients']//[@class='composeYabbles']"));
-        SelenideElement emailSubjectInput = $(By.xpath("//div[contains(@class, 'ComposeSubject-Content')]"));
-        SelenideElement sendMessageButton = $(By.xpath("//div[contains(@class,'ComposeSendButton')]//span[contains(@class,'button2__text')]"));
-        SelenideElement emailBodyInput = $(By.xpath("//div[contains(@role,'textbox')]"));
-        SelenideElement inbox = $(By.xpath("//a[contains(@class,'mail-FolderList-Item_inbox')]"));
-
-        String login = "//input[@id='Username']"; //$(By.id("Username"))
-        SelenideElement enterPass = $(By.xpath("//input[@class='o-control']"));
-        String password = "//input[@id='Password']"; // $(By.id("Password"))
-        //SelenideElement submit = $(By.xpath("//input[@class='o-control']"));
-
-        $(By.xpath(login)).setValue("xxxxxxxx");
-        enterPass.click();
-        $(By.xpath(password)).setValue("xxxxxxx").pressTab().pressTab().pressEnter();
-        //submit.click();
-
-
-        //open("https://mail.tut.by/");
-        //.setValue("testayqa");
-       //.setValue("qwerty12345").pressTab().pressTab().pressEnter();
-
-        composeMessage.click();
-        emailToInput.setValue(letterReceiver);
-        emailSubjectInput.setValue(letterTitle);
-        emailBodyInput.setValue(letterBody);
-        sendMessageButton.click();
+    public void mailServisTest() {
 
         Configuration.timeout = 6000;
 
-        inbox.click();
-        String actualLetterTitle = $(By.xpath("//div[contains(@class,'ns-view-messages-wrap')]")).getText();
-        assertEquals(actualLetterTitle, letterTitle,"Title is not equals!!");
+        pageObject.login("###","###");
+        pageObject.createMessage("","","");
+        pageObject.sendMessage();
+        pageObject.checkNewMessages();
+        pageObject.logOut();
+
+
+
+//        inboxFolder.click();
+//        String actualLetterTitle = $(By.xpath("//div[contains(@class,'ns-view-messages-wrap')]")).getText();
+//        assertEquals(actualLetterTitle, letterTitle,"Title is not equals!!");
 
 
         // Open LetterCreation pop-up
@@ -98,7 +79,7 @@ public class BaseTest {
 //    SelenideElement mailSubjectInput = $(By.xpath("//div[contains(@class, 'ComposeSubject-Content')]"));
 //    SelenideElement sendMessageButton = $(By.xpath("//div[contains(@class,'ComposeSendButton')]//span[contains(@class,'button2__text')]"));
 //    SelenideElement mailBodyInput = $(By.xpath("//div[contains(@role,'textbox')]"));
-//    SelenideElement inbox = $(By.xpath("//a[contains(@class,'mail-FolderList-Item_inbox')]"));
+//    SelenideElement inboxFolder = $(By.xpath("//a[contains(@class,'mail-FolderList-Item_inbox')]"));
 //
 //
 //    @Test(dataProvider = "textMessageParser", dataProviderClass = DataManager.class)
