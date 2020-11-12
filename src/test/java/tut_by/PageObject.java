@@ -23,10 +23,15 @@ public class PageObject {
     SelenideElement inboxItemBody = $(By.xpath("//span[contains(@Class,'mail-MessageSnippet-Item_body')]"));
     //DataManager dataManager = new DataManager();
 
-    public void login(String userName, String password) {
+    public void login() {
+        DataManager dataManager = new DataManager();
+
+
         open("https://mail.tut.by");
         String userNameField = "Username";
+        String userName = (String) dataManager.dataForLogin()[0][0];
         String passwordField = "Password";
+        String password = (String) dataManager.dataForLogin()[0][1];
 
         $(By.id(userNameField)).setValue(userName);
         $(By.id(passwordField)).setValue(password);
@@ -43,15 +48,15 @@ public class PageObject {
         sendMessageButton.click();
     }
 
-    public void checkNewMessages(String letterTitle,String letterBody){
+    public void checkNewMessages(String letterSubject,String letterBody){
         SoftAssert softAssert = new SoftAssert();
 
         inboxFolder.click();
-        String actualLetterTitle = inboxItemSubject.getText();
+        String actualLetterSubject = inboxItemSubject.getText();
         String actualLetterBody = inboxItemBody.getText();
-        String expectedSubject = letterTitle;
+        String expectedSubject = letterSubject;
         String expectedBody = letterBody;
-        softAssert.assertEquals(actualLetterTitle, expectedSubject,"Title is not equals!!");
+        softAssert.assertEquals(actualLetterSubject, expectedSubject,"Title is not equals!!");
         softAssert.assertTrue(actualLetterBody.contains(expectedBody), "Not equals!!");
 
         softAssert.assertAll();

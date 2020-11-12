@@ -1,114 +1,73 @@
 package tut_by;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.github.javafaker.Faker;
-import lombok.Data;
-import lombok.experimental.Accessors;
-import org.openqa.selenium.By;
+import com.google.gson.JsonArray;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.testng.annotations.DataProvider;
-
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+//@Data
 
-@Data
-@Accessors(chain = true)
 public class DataManager {
 
     Faker faker = new Faker();
 
-    String name = faker.name().fullName(); // Miss Samanta Schmidt
-    String firstName = faker.name().firstName(); // Emory
-    String lastName = faker.name().lastName(); // Barton
+    private static final String filePath = "src/resources/data.json";
 
-   // String quote = faker.howIMetYourMother.quote(); // 60018 Sawayn Brooks Suite 449
+    public Object[][] dataForLogin() {
+        Object[][] loginData = new Object[0][];
+
+        try {
+            FileReader reader = new FileReader(filePath);
+            JSONParser jsonParser = new JSONParser();
+            JSONPObject jsonpObject = (JSONPObject) jsonParser.parse(reader);
+            String userName = (String) jsonParser.get("userName");
+            String password = (String) jsonParser.get("password");
+
+            loginData = new Object[1][2];
+            loginData[0][0] = userName;
+            loginData[0][1] = password;
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
+        return loginData;
+    }
 
     @DataProvider
     public Object[][] dataForLetterInput() {
-        Object[][] data = new Object[1][3];
 
-        data[0][0] = "testayqa@tut.by";
-        data[0][1] = "TestTestTest";
-        data[0][2] = "Hello world, I am email body";
-        return data;
-    }
+        Object[][] data = new Object[0][0];
 
-    public class DataManagerMail {
+        try {
+            FileReader reader = new FileReader(filePath);
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
 
+            JSONArray messageArray = (JSONArray) jsonObject.get("messages");
+            int messageCount = messageArray.size();
+            Iterator i = messageArray.iterator();
 
-//        @DataProvider
-//        public Object[] dataForInput(String login, String pass) {
-//            open("https://mail.tut.by/");
-//            $(By.cssSelector("[name='login']")).setValue(login).pressEnter();
-//            $(By.cssSelector("[name='password']")).setValue(password).pressEnter();
-//            return new Object[0];
-//        }
-
-
-        @DataProvider
-        public Object[] textMessageParser() throws IOException {
-            Path path = Paths.get("src/main/resources/text.txt");
-            List<String> data = Files.readAllLines(path);
-
-            Object[] message = new Object[2];
-            message[0] = data.get(1);
-            message[1] = data.get(2);
-
-            return message;
+            message = new Object[messageCount][5];
+            int a = 0;
+            for (int b = 0; b < messageCount; b++) {
+                JSONObject messagesObject = (JSONObject) i.next();
+                message[a][0] = messagesObject.get("recipient");
+                message[a][1] = messagesObject.get("subject");
+                message[a][2] = messagesObject.get("body");
+                a += 1;
+            }
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
         }
-
-
-//        @DataProvider
-//        public Iterator<Object[]> dataForLetterInput() throws IOException {
-//            // Object[][] data = new Object[3][3];
-//
-//            return parseCsvData("src/test/resources/EmailTemplates.csv");
-//
-////        data[0][0] = "valerevna944@mail.ru";
-////        data[0][1] = "My first email Test";
-////        data[0][2] = "Hello, I am Valeria and I am writing to myself";
-////        return data;
-//        }
-//
-//        private Iterator<Object[]> parseCsvData(String fileName) throws IOException
-//        {
-//            BufferedReader input = null;
-//            File file = new File(fileName);
-//            input = new BufferedReader(new FileReader(file));
-//            String line = null;
-//            List<Object[]> data = new ArrayList<>();
-//            while ((line = input.readLine()) != null)
-//            {
-//                String in = line.trim();
-//                String[] temp = in.split(",");
-//                List<Object> arrray = new ArrayList<>();
-//                for(String s : temp)
-//                {
-//                    arrray.add(Integer.parseInt(s));
-//                }
-//                data.add(arrray.toArray());
-//            }
-//            input.close();
-//            return data.iterator();
-//        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return message;
+    }
 }
 

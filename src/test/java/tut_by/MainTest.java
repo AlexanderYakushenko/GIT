@@ -18,17 +18,14 @@ public class MainTest {
 
     PageObject pageObject = new PageObject();
 
-
     @Test(dataProvider = "dataForLetterInput", dataProviderClass = DataManager.class)
-    public void mailServisTest(String recipient, String subject, String body) {
+    public void mailServisTest(String recipient, String letterSubject, String letterBody) {
 
         Configuration.timeout = 6000;
 
-        pageObject.login("###", "###");
-        pageObject.createMessage("", "", "");
-        pageObject.checkNewMessages("", "");
+        pageObject.login();
+        pageObject.createMessage(recipient, letterSubject, letterBody);
+        pageObject.checkNewMessages(letterSubject,letterBody);
         pageObject.logOut();
-
-
     }
 }
