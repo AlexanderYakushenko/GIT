@@ -1,73 +1,52 @@
 package tut_by;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.github.javafaker.Faker;
-import com.google.gson.JsonArray;
-import jdk.nashorn.internal.parser.JSONParser;
+import lombok.Data;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.testng.annotations.DataProvider;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.ParseException;
-import java.util.Iterator;
-import java.util.List;
 
-//@Data
+import java.io.IOException;
+import java.nio.file.Paths;
+
+@Data
 
 public class DataManager {
 
-    Faker faker = new Faker();
+    private static final String filePath = "src/main/resources/data.json";
 
-    private static final String filePath = "src/resources/data.json";
+    ObjectMapper mapper = new ObjectMapper();
 
-    public Object[][] dataForLogin() {
-        Object[][] loginData = new Object[0][];
+    private EmailData getEmailData() throws IOException {
 
-        try {
-            FileReader reader = new FileReader(filePath);
-            JSONParser jsonParser = new JSONParser();
-            JSONPObject jsonpObject = (JSONPObject) jsonParser.parse(reader);
-            String userName = (String) jsonParser.get("userName");
-            String password = (String) jsonParser.get("password");
+        EmailData emailData = mapper.readValue(Paths.get(filePath).toFile(), EmailData.class);
+        return emailData;
+    }
 
-            loginData = new Object[1][2];
-            loginData[0][0] = userName;
-            loginData[0][1] = password;
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
+    @DataProvider
+    public Object[][] dataForLogin() throws IOException {
+
+        EmailData emailData = getEmailData();
+
+        Object[][] loginData = new Object[1][2];
+        loginData[0][0] = emailData.getUserName();
+        loginData[0][1] = emailData.getPassword();
+
         return loginData;
     }
 
     @DataProvider
-    public Object[][] dataForLetterInput() {
+    public Object[][] message() throws IOException {
 
-        Object[][] data = new Object[0][0];
+        EmailData emailData = getEmailData();
 
-        try {
-            FileReader reader = new FileReader(filePath);
-            JSONParser jsonParser = new JSONParser();
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
-
-            JSONArray messageArray = (JSONArray) jsonObject.get("messages");
-            int messageCount = messageArray.size();
-            Iterator i = messageArray.iterator();
-
-            message = new Object[messageCount][5];
-            int a = 0;
-            for (int b = 0; b < messageCount; b++) {
-                JSONObject messagesObject = (JSONObject) i.next();
-                message[a][0] = messagesObject.get("recipient");
-                message[a][1] = messagesObject.get("subject");
-                message[a][2] = messagesObject.get("body");
-                a += 1;
-            }
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
+        Object[][] messageData = new Object[emailData.getMessage().size()][1];
+        for (int i = 0; i < emailData.getMessage().size(); i++) {
+            Message m = emailData.getMessage().get(i);
+            messageData[i][0] = m;
         }
-        return message;
+
+        return messageData;
     }
+
 }
+
 

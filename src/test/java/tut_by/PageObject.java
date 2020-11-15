@@ -3,10 +3,12 @@ package tut_by;
 import com.codeborne.selenide.SelenideElement;
 import lombok.Data;
 import org.openqa.selenium.By;
+import org.testng.annotations.BeforeMethod;
 import org.testng.asserts.SoftAssert;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+
 @Data
 public class PageObject {
 
@@ -21,49 +23,54 @@ public class PageObject {
     SelenideElement logOutButton = $(By.xpath("//a[contains(@class,'legouser__menu-item_action_exit')]"));
     SelenideElement inboxItemSubject = $(By.xpath("//div[contains(@Class,'mail-MessageSnippet-Item_content-row')]"));
     SelenideElement inboxItemBody = $(By.xpath("//span[contains(@Class,'mail-MessageSnippet-Item_body')]"));
-    //DataManager dataManager = new DataManager();
-
-    public void login() {
-        DataManager dataManager = new DataManager();
+    SelenideElement sentNotification = $(By.xpath("//div[@class = 'ComposeDoneScreen-Title']"));
 
 
-        open("https://mail.tut.by");
+    public void login(String userName, String password) {
+
+        // open("https://mail.tut.by");
         String userNameField = "Username";
-        String userName = (String) dataManager.dataForLogin()[0][0];
         String passwordField = "Password";
-        String password = (String) dataManager.dataForLogin()[0][1];
 
         $(By.id(userNameField)).setValue(userName);
         $(By.id(passwordField)).setValue(password);
         logInButton.click();
     }
 
-    //@Test(dataProvider = "dataForLetterInput",dataProviderClass = DataManager.class)
-    public void createMessage(String recipient, String letterSubject, String letterBody){
+    public void sentCreatedMessage(String recipient, String subject, String body) {
+        createMessage(recipient, subject, body);
+        sendMessageButton.click();
+
+    }
+
+    public void createMessage(String recipient, String subject, String body) {
 
         writeMessageButton.click();
         recipientField.setValue(recipient);
-        emailSubjectField.setValue(letterSubject);
-        emailBodyInput.setValue(letterBody);
-        sendMessageButton.click();
+        emailSubjectField.setValue(subject);
+        emailBodyInput.setValue(body);
     }
 
-    public void checkNewMessages(String letterSubject,String letterBody){
+    public void checkNewMessages(String subject, String body) {
         SoftAssert softAssert = new SoftAssert();
 
         inboxFolder.click();
-        String actualLetterSubject = inboxItemSubject.getText();
-        String actualLetterBody = inboxItemBody.getText();
-        String expectedSubject = letterSubject;
-        String expectedBody = letterBody;
-        softAssert.assertEquals(actualLetterSubject, expectedSubject,"Title is not equals!!");
-        softAssert.assertTrue(actualLetterBody.contains(expectedBody), "Not equals!!");
-
-        softAssert.assertAll();
+//        String actualLetterSubject = inboxItemSubject.getText();
+//        String actualLetterBody = inboxItemBody.getText();
+//        String expectedSubject = letterSubject;
+//        String expectedBody = letterBody;
+//        softAssert.assertEquals(actualLetterSubject, expectedSubject,"Title is not equals!!");
+//        softAssert.assertTrue(actualLetterBody.contains(expectedBody), "Not equals!!");
+//
+//        softAssert.assertAll();
 
     }
 
-    public void logOut (){
+    public boolean letterIsSent() {
+        return sentNotification.isDisplayed();
+    }
+
+    public void logOut() {
         userIconButton.click();
         logOutButton.click();
     }
