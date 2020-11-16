@@ -27,14 +27,14 @@ public class MainTest {
    }
 
    @Test
-   public void checkDownloadedFile() throws FileNotFoundException {
+   public void downloadedFileTest() throws FileNotFoundException {
       internetPage.downloadPage();
       download.downloadFile();
 
    }
 
    @Test
-   public void checkResultLineContainsEnteredValue(){
+   public void keyPressTest(){
       internetPage.keyPressPage();
       keyPress.pressedKeyDisplayed("Enter");
    }
