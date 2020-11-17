@@ -9,9 +9,9 @@ import org.testng.annotations.Test;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.open;
 @Data
-public class DropDownTest {
+public class DropDownPage {
 
-   // @Test
+
     public String dropDownOptionTest(){
 
         SelenideElement dropDown = $(By.id("dropdown"));

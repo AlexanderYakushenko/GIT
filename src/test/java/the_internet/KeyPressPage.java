@@ -4,7 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.$;
 
-public class KeyPressTest {
+public class KeyPressPage {
 
 
     SelenideElement input = $("#target");
@@ -12,7 +12,7 @@ public class KeyPressTest {
 
     public boolean pressedKeyDisplayed(String value){
 
-        input.setValue(value);
+        input.pressEnter();
         return keyName.getText().contains(value);
     }
 

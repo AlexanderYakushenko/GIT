@@ -6,9 +6,9 @@ import java.io.FileNotFoundException;
 
 import static com.codeborne.selenide.Selenide.$;
 
-public class DownloadTest {
+public class DownloadPage {
 
-    SelenideElement helloWorldTextLink = $("a[href='download/hello_world.txt']");
+    SelenideElement helloWorldTextLink = $("a[href='download/some-file.txt']");
 
     public void downloadFile() throws FileNotFoundException {
         helloWorldTextLink.download();
